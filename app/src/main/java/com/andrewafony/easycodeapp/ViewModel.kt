@@ -7,15 +7,17 @@ class ViewModel(private val model: Model) {
 
     private var dataCallback: DataCallback? = null
 
+    private val jokeCallback = object : JokeCallback {
+        override fun provideJoke(joke: Joke) {
+            dataCallback?.let {
+                joke.map(it)
+            }
+        }
+    }
+
     fun init(callback: DataCallback) {
         this.dataCallback = callback
-        model.init(object : ResultCallback {
-            override fun provideJoke(joke: Joke) {
-                dataCallback?.let {
-                    joke.map(it)
-                }
-            }
-        })
+        model.init(jokeCallback)
     }
 
     fun getAdvice() {
@@ -28,7 +30,11 @@ class ViewModel(private val model: Model) {
     }
 
     fun chooseFavorites(checked: Boolean) {
+        model.chooseDataSource(checked)
+    }
 
+    fun changeJokeStatus() {
+        model.changeJokeStatus(jokeCallback)
     }
 
 }

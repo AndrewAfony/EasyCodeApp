@@ -15,3 +15,7 @@ class ServiceUnavailable(private val resource: ResourceManager) : JokeFailure {
 
     override fun getMessage(): String = resource.getString(R.string.service_unavaliable)
 }
+
+class NoCachedJokes(private val resource: ResourceManager) : JokeFailure {
+    override fun getMessage(): String = resource.getString(R.string.no_cached_jokes)
+}

@@ -32,9 +32,13 @@ class MainActivity : AppCompatActivity() {
                 viewModel.chooseFavorites(isChecked)
             }
 
+            addFavorite.setOnClickListener {
+                viewModel.changeJokeStatus()
+            }
+
         }
 
-        viewModel.init(object : DataCallback{
+        viewModel.init(object : DataCallback {
             override fun provideText(text: String) = runOnUiThread {
                 binding.apply {
                     buttonGetAdvice.isEnabled = true
