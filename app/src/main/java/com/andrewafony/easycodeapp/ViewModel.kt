@@ -1,14 +1,14 @@
 package com.andrewafony.easycodeapp
 
 import androidx.annotation.DrawableRes
-import com.andrewafony.easycodeapp.domain.model.Joke
+import com.andrewafony.easycodeapp.domain.model.JokeUiModel
 
 class ViewModel(private val model: Model) {
 
     private var dataCallback: DataCallback? = null
 
     private val jokeCallback = object : JokeCallback {
-        override fun provideJoke(joke: Joke) {
+        override fun provideJoke(joke: JokeUiModel) {
             dataCallback?.let {
                 joke.map(it)
             }

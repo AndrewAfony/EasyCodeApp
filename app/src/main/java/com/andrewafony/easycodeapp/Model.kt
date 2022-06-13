@@ -1,6 +1,6 @@
 package com.andrewafony.easycodeapp
 
-import com.andrewafony.easycodeapp.domain.model.Joke
+import com.andrewafony.easycodeapp.domain.model.JokeUiModel
 
 interface Model {
 
@@ -17,6 +17,6 @@ interface Model {
 
 interface JokeCallback {
 
-    fun provideJoke(joke: Joke)
+    fun provideJoke(joke: JokeUiModel)
 
 }

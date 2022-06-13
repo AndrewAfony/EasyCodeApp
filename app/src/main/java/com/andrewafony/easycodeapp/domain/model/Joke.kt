@@ -1,32 +1,25 @@
 package com.andrewafony.easycodeapp.domain.model
 
-import androidx.annotation.DrawableRes
-import com.andrewafony.easycodeapp.DataCallback
-import com.andrewafony.easycodeapp.R
+import com.andrewafony.easycodeapp.data.local.CacheDataSource
 
-class BaseJoke(text: String?, punchline: String?): Joke(text, punchline) {
-    override fun getIconResId(): Int = R.drawable.ic_favorite_border
-}
-
-class FavoriteJoke(text: String?, punchline: String?): Joke(text, punchline) {
-    override fun getIconResId(): Int = R.drawable.ic_favorite
-}
-
-class FailedJoke(text: String?): Joke(text, "") {
-    override fun getIconResId(): Int = 0
-}
-
-abstract class Joke(
-    private val text: String?,
-    private val punchline: String?
+class Joke(
+    private val id: Int,
+    private val setup: String,
+    private val delivery: String,
+    private val category: String
 ) {
-    protected fun getJokeUi() = "$text\n$punchline"
+    fun toBaseJoke() = BaseJokeUiModel(setup, delivery)
 
-    @DrawableRes
-    abstract fun getIconResId(): Int
+    fun toFavoriteJoke() = FavoriteJokeUiModel(setup, delivery)
 
-    fun map(callback: DataCallback) = callback.run {
-        provideText(getJokeUi())
-        provideIconRes(getIconResId())
+    fun toJokeRealm(): JokeRealm {
+        return JokeRealm().also {
+            it.id = id
+            it.text = setup
+            it.punchLine = delivery
+            it.category = category
+        }
     }
+
+    fun change(cacheDataSource: CacheDataSource) = cacheDataSource.addOrRemove(id, this)
 }

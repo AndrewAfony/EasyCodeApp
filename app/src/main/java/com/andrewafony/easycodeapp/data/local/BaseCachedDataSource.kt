@@ -2,6 +2,7 @@ package com.andrewafony.easycodeapp.data.local
 
 import com.andrewafony.easycodeapp.data.dto.JokeServerModel
 import com.andrewafony.easycodeapp.domain.model.Joke
+import com.andrewafony.easycodeapp.domain.model.JokeUiModel
 import com.andrewafony.easycodeapp.domain.model.JokeRealm
 import io.realm.Realm
 
@@ -20,14 +21,14 @@ class BaseCachedDataSource(private val realm: Realm): CacheDataSource {
                             joke.text,
                             joke.punchLine,
                             joke.category
-                        )
+                        ).toJoke()
                     )
                 }
             }
         }
     }
 
-    override fun addOrRemove(id: Int, joke: JokeServerModel): Joke {
+    override fun addOrRemove(id: Int, joke: Joke): JokeUiModel {
         realm.let {
             val jokeRealm = it.where(JokeRealm::class.java).equalTo("id", id).findFirst()
             return if (jokeRealm == null){
